@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="tr" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Sun Doviz | KKTC'nin En Güvenilir Döviz Kurları</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        'sun-gold': '#D4AF37',
+                        'sun-light-gold': '#F5E1A4',
+                        'sun-bronze': '#3E2A0D',
+                        'sun-dark-bronze': '#2A1C08',
+                        'sun-white': '#F5F5F5',
+                        'sun-red': '#E74C3C',
+                        'sun-green': '#25D366',
+                        primary: {
+                            light: '#3E2A0D',
+                            dark: '#F5E1A4'
+                        },
+                        secondary: {
+                            light: '#D4AF37',
+                            dark: '#D4AF37'
+                        },
+                        accent: {
+                            light: '#E74C3C',
+                            dark: '#E74C3C'
+                        },
+                        background: {
+                            light: '#F5F5F5',
+                            dark: '#3E2A0D'
+                        },
+                        card: {
+                            light: '#F5F5F5',
+                            dark: '#3E2A0D'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Montserrat', 'sans-serif'],
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-in-out',
+                        'slide-up': 'slideUp 0.5s ease-out',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(10px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        }
+                    },
+                    fontSize: {
+                        'dynamic-base': 'clamp(0.75rem, 2vw, 1rem)',
+                        'dynamic-lg': 'clamp(1rem, 3vw, 1.25rem)',
+                        'dynamic-xl': 'clamp(1.25rem, 4vw, 1.5rem)',
+                        'dynamic-2xl': 'clamp(1.5rem, 5vw, 2rem)',
+                        'dynamic-4xl': 'clamp(2rem, 7vw, 2.5rem)',
+                    },
+                    spacing: {
+                        'dynamic-2': 'clamp(0.5rem, 1vw, 0.75rem)',
+                        'dynamic-4': 'clamp(1rem, 2vw, 1.5rem)',
+                        'dynamic-6': 'clamp(1.5rem, 3vw, 2rem)',
+                    },
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="translations.js"></script>
+    <style>
+        body, html {
+            min-height: 100%;
+            margin: 0;
+        }
+        .bg-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('backg.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            filter: blur(2px);
+            z-index: -2;
+        }
+        .bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(62, 42, 13, 0.75), rgba(212, 175, 55, 0.75));
+            z-index: -1;
+        }
+        .zebra-stripe tr:nth-child(even) {
+            background-color: rgba(245, 225, 164, 0.05);
+        }
+        .zebra-stripe tr:hover {
+            background-color: rgba(245, 225, 164, 0.1);
+        }
+        .table-header {
+            background-color: rgba(62, 42, 13, 0.05);
+        }
+        .dark .table-header {
+            background-color: rgba(212, 175, 55, 0.2);
+        }
+        .call-button {
+            background-color: #fd3052;
+            transition: all 0.3s ease;
+        }
+        .call-button:hover {
+            background-color: #9a1d3f;
+            transform: scale(1.05);
+        }
+        .whatsapp-button {
+            background-color: #25D366;
+            transition: all 0.3s ease;
+        }
+        .whatsapp-button:hover {
+            background-color: #128C7E;
+            transform: scale(1.05);
+        }
+        .lang-active {
+            font-weight: bold;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body class="h-full m-0 p-0 text-white bg-fixed flex flex-col relative">
+    <div class="bg-image"></div>
+    <div class="bg-overlay"></div>
+    
+    <!-- Language Toggle -->
+    <div class="fixed top-dynamic-2 right-dynamic-2 z-50">
+        <button id="language-toggle" class="p-2 rounded-full bg-sun-bronze border border-sun-gold shadow-lg transition-all duration-300 text-sun-light-gold hover:bg-sun-dark-bronze font-medium text-xs">
+            <span id="lang-tr" class="lang-active cursor-pointer">TR</span>
+            <span class="px-1">/</span>
+            <span id="lang-en" class="cursor-pointer">EN</span>
+        </button>
+    </div>
+
+    <div class="container mx-auto px-dynamic-4 py-dynamic-4 flex-1 flex flex-col justify-between max-w-7xl">
+        <!-- Header Logo -->
+        <div class="flex justify-center md:justify-start mb-dynamic-4 md:mb-dynamic-6">
+            <div class="bg-sun-white/10 backdrop-blur-sm border border-sun-light-gold/30 dark:bg-sun-bronze dark:border-sun-gold/30 p-[clamp(0.25rem,0.5vw,0.375rem)] rounded-2xl shadow-lg inline-block">
+                <img src="sun-logo.png" alt="Sun Doviz Logo" class="h-[clamp(3rem,8vw,5rem)] md:h-24 w-auto">
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col md:flex-row items-center md:items-start gap-dynamic-6 md:gap-dynamic-4 md:justify-between">
+            <!-- Left Column - Text and Buttons -->
+            <div class="w-full md:w-3/5 order-2 md:order-1 text-center md:text-left animate-fade-in md:pt-12">
+                <h1 class="text-dynamic-4xl md:text-6xl font-bold tracking-tight text-sun-white md:leading-tight">
+                    KKTC'NİN EN UYGUN<br>DÖVİZ KURLARI
+                </h1>
+                
+                <h2 class="text-dynamic-xl md:text-2xl mt-dynamic-4 mb-dynamic-6 text-sun-white md:mt-8 md:mb-12">
+                    Döviz işlemleriniz için
+                </h2>
+                
+                <div class="flex flex-row items-center justify-center md:justify-start gap-2 sm:gap-dynamic-4 md:gap-6">
+                    <a href="tel:+903922271734" class="call-button text-white font-medium text-sm sm:text-dynamic-xl py-2.5 sm:py-dynamic-4 px-4 sm:px-dynamic-6 rounded-lg shadow-lg transition duration-300 flex items-center justify-center flex-1 min-w-0 sm:min-w-[clamp(200px,40vw,240px)] md:min-w-[260px]">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1 sm:h-6 sm:w-6 sm:mr-2 md:h-7 md:w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                        </svg>
+                        HEMEN ARAYIN!
+                    </a>
+                    <a href="https://wa.me/+903922271734" class="whatsapp-button text-white font-medium text-sm sm:text-dynamic-xl py-2.5 sm:py-dynamic-4 px-4 sm:px-dynamic-6 rounded-lg shadow-lg transition duration-300 flex items-center justify-center flex-1 min-w-0 sm:min-w-[clamp(200px,40vw,240px)] md:min-w-[260px]">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1 sm:h-7 sm:w-7 sm:mr-2 md:h-8 md:w-8" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                        </svg>
+                        WhatsApp
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Right Column - Exchange Rates -->
+            <div class="w-full md:w-[450px] order-1 md:order-2 flex justify-center items-center animate-slide-up opacity-0" style="animation-delay: 0.2s; animation-fill-mode: forwards;">
+                <div class="bg-sun-white/95 dark:bg-sun-dark-bronze/95 backdrop-blur-sm border border-sun-light-gold/20 dark:border-sun-gold/20 rounded-xl shadow-lg overflow-hidden w-full">
+                    <div class="p-dynamic-4 md:p-6">
+                        <h3 class="text-dynamic-lg md:text-xl font-semibold text-sun-bronze dark:text-sun-light-gold mb-dynamic-2 md:mb-4 text-center">KKTC Güncel Döviz Kurları</h3>
+                        
+                        <div class="flex items-center justify-center mb-dynamic-4 md:mb-6">
+                            <a href="tel:+903922271734" class="flex items-center py-1 px-2 transition-colors duration-300 hover:text-sun-red group">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1.5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                                </svg>
+                                <span class="text-blue-500 dark:text-blue-400 text-base font-medium underline md:text-lg">0(392) 227 17 34</span>
+                            </a>
+                        </div>
+                        
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full zebra-stripe">
+                                <thead>
+                                    <tr class="table-header">
+                                        <th class="px-dynamic-4 py-dynamic-2 md:px-6 md:py-4 text-left text-dynamic-base md:text-lg font-bold text-sun-bronze dark:text-sun-light-gold border-b-2 border-sun-light-gold/50 dark:border-sun-gold/50">
+                                            <div class="flex items-center space-x-2">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+                                                </svg>
+                                                <span>Kur</span>
+                                            </div>
+                                        </th>
+                                        <th class="px-dynamic-4 py-dynamic-2 text-right text-dynamic-base font-bold text-sun-bronze dark:text-sun-light-gold border-b-2 border-sun-light-gold/50 dark:border-sun-gold/50">
+                                            <div class="flex items-center justify-end space-x-2">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                </svg>
+                                                <span>Alış</span>
+                                            </div>
+                                        </th>
+                                        <th class="px-dynamic-4 py-dynamic-2 text-right text-dynamic-base font-bold text-sun-bronze dark:text-sun-light-gold border-b-2 border-sun-light-gold/50 dark:border-sun-gold/50">
+                                            <div class="flex items-center justify-end space-x-2">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                </svg>
+                                                <span>Satış</span>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody id="exchange-rates" class="divide-y divide-sun-light-gold/5 dark:divide-sun-gold/5">
+                                    <!-- Exchange rates will be loaded here -->
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="mt-dynamic-2 md:mt-4 text-[clamp(9px,1.8vw,11px)] md:text-sm text-sun-bronze/60 dark:text-sun-light-gold/40 flex flex-col items-center space-y-1">
+                            <div id="last-update" class="flex items-center justify-center whitespace-nowrap">
+                                <span class="mr-1">Son Güncelleme:</span>
+                                <span class="tabular-nums">--/--/-- --:--</span>
+                            </div>
+                            <div id="last-read" class="flex items-center justify-center whitespace-nowrap">
+                                <span class="mr-1">Son Okuma:</span>
+                                <span class="tabular-nums">--/--/-- --:--</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="text-center mt-dynamic-4 md:mt-8 pb-dynamic-2 animate-slide-up opacity-0" style="animation-delay: 0.4s; animation-fill-mode: forwards;">
+            <div class="flex flex-col items-center space-y-1 md:space-y-2">
+                <p class="text-[clamp(10px,2vw,14px)] md:text-base text-sun-light-gold/80">© 1983-25 Sun Doviz. Tüm hakları saklıdır.</p>
+                <p class="text-[clamp(10px,2vw,14px)] md:text-base text-sun-light-gold/80">
+                    Website Designed by 
+                    <a href="https://raxana.net" target="_blank" class="hover:text-sun-light-gold transition-colors duration-300">
+                        Raxana.NET
+                    </a>
+                </p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Apply theme based on system preference
+        document.addEventListener('DOMContentLoaded', function() {
+            // Apply dark mode based on system preference
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+            
+            // Listen for changes in system theme preference
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+                if (e.matches) {
+                    document.documentElement.classList.add('dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                }
+            });
+        });
+        
+        // Function to format date
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const day = date.getDate().toString().padStart(2, '0');
+            const month = (date.getMonth() + 1).toString().padStart(2, '0');
+            const year = date.getFullYear().toString().slice(-2);
+            const hours = date.getHours().toString().padStart(2, '0');
+            const minutes = date.getMinutes().toString().padStart(2, '0');
+            
+            return `${day}/${month}/${year} ${hours}:${minutes}`;
+        }
+
+        // Function to format rate value
+        function formatRate(num) {
+            return Number(num).toFixed(4);
+        }
+
+        // Function to get flag icon
+        function getFlagIcon(currency) {
+            const flags = {
+                'USD': '<svg class="h-4 w-4 mr-1" viewBox="0 0 640 480" xmlns="http://www.w3.org/2000/svg"><path fill="#bd3d44" d="M0 0h640v480H0"/><path stroke="#fff" stroke-width="37" d="M0 55h640M0 129h640M0 203h640M0 277h640M0 351h640M0 425h640"/><path fill="#192f5d" d="M0 0h364v258H0z"/><path fill="#fff" d="M30 11l4 11h11l-9 7 3 11-9-7-9 7 3-11-9-7h11zm61 0l3 11h11l-9 7 4 11-9-7-10 7 4-11-9-7h11zm61 0l3 11h11l-9 7 3 11-8-7-9 7 3-11-9-7h11zm60 0l4 11h11l-9 7 3 11-9-7-9 7 4-11-10-7h11zm61 0l3 11h11l-8 7 3 11-9-7-9 7 3-11-8-7h11zm60 0l4 11h10l-8 7 3 11-9-7-9 7 4-11-9-7h10zm-305 55l3 11h11l-9 7 4 11-9-7-9 7 3-11-9-7h11zm61 0l3 11h11l-9 7 4 11-9-7-9 7 3-11-9-7h11zm61 0l3 11h11l-9 7 3 11-8-7-9 7 3-11-9-7h11zm60 0l4 11h11l-9 7 3 11-9-7-9 7 4-11-9-7h10zm61 0l3 11h11l-8 7 3 11-9-7-9 7 3-11-8-7h11zm-304 55l3 11h11l-9 7 4 11-9-7-9 7 3-11-9-7h11zm61 0l3 11h11l-9 7 4 11-9-7-9 7 3-11-9-7h11zm61 0l3 11h11l-9 7 3 11-8-7-9 7 3-11-9-7h11zm60 0l4 11h11l-9 7 3 11-9-7-9 7 4-11-9-7h10zm61 0l3 11h11l-8 7 3 11-9-7-9 7 3-11-8-7h11zm-304 55l3 11h11l-9 7 4 11-9-7-9 7 3-11-9-7h11zm61 0l3 11h11l-9 7 4 11-9-7-9 7 3-11-9-7h11zm61 0l3 11h11l-9 7 3 11-8-7-9 7 3-11-9-7h11zm60 0l4 11h11l-9 7 3 11-9-7-9 7 4-11-9-7h10zm61 0l3 11h11l-8 7 3 11-9-7-9 7 3-11-8-7h11z"/></svg>',
+                'EUR': '<svg class="h-4 w-4 mr-1" viewBox="0 0 640 480" xmlns="http://www.w3.org/2000/svg"><defs><g id="s"><g id="c"><path id="t" d="M0 0v1h.5z" transform="rotate(18 0 -1)"/><use transform="scale(-1 1)" href="#t"/></g><g id="a"><use transform="rotate(72)" href="#c"/><use transform="rotate(144)" href="#c"/></g><use transform="rotate(72)" href="#a"/></g></defs><path fill="#039" d="M0 0h640v480H0z"/><g fill="#fc0" transform="translate(320 242.3) scale(23.75)"><use href="#s" y="-6"/><use href="#s" y="6"/><g id="l"><use href="#s" x="-6"/><use href="#s" transform="rotate(150) translate(0 -6) rotate(-150)"/><use href="#s" transform="rotate(30) translate(0 -6) rotate(-30)"/><use href="#s" transform="rotate(60) translate(0 -6) rotate(-60)"/><use href="#s" transform="rotate(120) translate(0 -6) rotate(-120)"/><use href="#s" transform="rotate(90) translate(0 -6) rotate(-90)"/></g><use transform="scale(-1 1)" href="#l"/></g></svg>',
+                'GBP': '<svg class="h-4 w-4 mr-1" viewBox="0 0 640 480" xmlns="http://www.w3.org/2000/svg"><path fill="#012169" d="M0 0h640v480H0z"/><path fill="#FFF" d="M75 0l244 181L562 0h78v62L400 241l240 178v61h-80L320 301 81 480H0v-60l239-178L0 64V0h75z"/><path fill="#C8102E" d="M424 281l216 159v40L369 281h55zm-184 20l6 35L54 480H0l240-179zM640 0v3L391 191l2-44L590 0h50zM0 0l239 176h-60L0 42V0z"/><path fill="#FFF" d="M241 0v480h160V0H241zM0 160v160h640V160H0z"/><path fill="#C8102E" d="M0 193v96h640v-96H0zM273 0v480h96V0h-96z"/></svg>',
+                'AUD': '<svg class="h-4 w-4 mr-1" viewBox="0 0 640 480" xmlns="http://www.w3.org/2000/svg"><path fill="#006" d="M0 0h640v480H0z"/><path fill="#fff" d="M0 0v28l307 222h38.7L0 28V0h640v28L333 250h-38.7L640 28V0H0z"/><path fill="#fff" d="M266.7 0v250h106.6V0H266.7zM0 83.3v83.4h640V83.3H0z"/><path fill="#c00" d="M0 100v50h640v-50H0zM300 0v250h40V0h-40zM0 250l213.3-155h47.4L47.4 250H0zm0-250L213.3 95h-47.4L0 22.8V0zm380.7 95L594 0h46L426.7 95h-46zM640 250L426.7 95h47.3L640 227.2V250z"/><path fill="#fff" d="M534 240l-32-16-32 16 12-35-30-22h38l12-35 12 35h38l-30 22m-353-52l-6 18-20-2 17 13-6 18 15-10 17 12-10-17 15-10-19-3m21 99l-19 10-15-13 5 20-19 9 20 2 5 19 9-17 20 2-15-13m-89-64l-19-2-9-18 2 20-19-3 15 13-2 20 14-13 15 13-9-19m-7-146l-9 17-19-3 14 13-9 18 18-9 15 13-2-20 18-9-20-2m284 36l-9 18-19-2 14 13-9 18 18-9 14 13-2-20 19-10-20-1m-52-46l-15 13-19-9 9 18-15 13 19-2 9 19 9-19 19-2-15-13"/></svg>',
+                'TRY': '<svg class="h-4 w-4 mr-1" viewBox="0 0 640 480" xmlns="http://www.w3.org/2000/svg"><g fill-rule="evenodd"><path fill="#e30a17" d="M0 0h640v480H0z"/><path fill="#fff" d="M407 247.5c0 66.2-54.6 119.9-122 119.9s-122-53.7-122-120 54.6-119.8 122-119.8 122 53.7 122 119.9z"/><path fill="#e30a17" d="M413 247.5c0 53-43.6 95.9-97.5 95.9s-97.6-43-97.6-96 43.7-95.8 97.6-95.8 97.6 42.9 97.6 95.9z"/><path fill="#fff" d="M430.7 191.5l-1 44.3-41.3 11.2 40.8 14.5-1 40.7 26.5-31.8 40.2 14-23.2-34.1 28.3-33.9-43.5 12-25.8-37z"/></g></svg>'
+            };
+            
+            return flags[currency] || '';
+        }
+
+        // Function to load exchange rates
+        async function loadExchangeRates() {
+            console.log('Loading exchange rates...');
+            const tableBody = document.getElementById('exchange-rates');
+            
+            // Try to load cached data first
+            const cachedData = localStorage.getItem('sun-doviz-rates');
+            const cachedTimestamp = localStorage.getItem('sun-doviz-timestamp');
+            const now = new Date();
+            
+            // If we have cached data and it's less than 5 minutes old, use it
+            if (cachedData && cachedTimestamp) {
+                const cacheTime = new Date(cachedTimestamp);
+                const cacheAgeInMs = now - cacheTime;
+                const cacheAgeInMinutes = cacheAgeInMs / (1000 * 60);
+                
+                if (cacheAgeInMinutes < 5) {
+                    console.log('Using cached data from', new Date(cachedTimestamp).toLocaleTimeString());
+                    const data = JSON.parse(cachedData);
+                    displayExchangeRates(data);
+                    return;
+                }
+            }
+            
+            // Show loading state only if we don't have cached data
+            if (!cachedData) {
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="3" class="px-4 py-4 text-center text-sun-gold dark:text-sun-gold">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mx-auto mb-2 animate-pulse-slow" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            Yükleniyor...
+                        </td>
+                    </tr>
+                `;
+            }
+            
+            try {
+                console.log('Fetching from proxy...');
+                const response = await fetch('proxy.php');
+                console.log('Proxy response:', response);
+                
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error('Proxy error response:', errorText);
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                console.log('Received data:', data);
+                
+                if (!Array.isArray(data) || data.length === 0) {
+                    throw new Error('Invalid data format received');
+                }
+
+                // Cache the data
+                localStorage.setItem('sun-doviz-rates', JSON.stringify(data));
+                localStorage.setItem('sun-doviz-timestamp', now.toISOString());
+                
+                // Display the data
+                displayExchangeRates(data);
+            } catch (error) {
+                console.error('Error loading exchange rates:', error);
+                
+                // If we have cached data, use it even if it's old when there's an error
+                if (cachedData) {
+                    console.log('Using older cached data due to fetch error');
+                    const data = JSON.parse(cachedData);
+                    displayExchangeRates(data);
+                    return;
+                }
+                
+                // Show error message
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="3" class="px-4 py-4 text-center text-sun-red dark:text-sun-red">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mx-auto mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            Döviz kurları yüklenirken bir hata oluştu.
+                        </td>
+                    </tr>
+                `;
+            }
+        }
+        
+        // Function to display exchange rates
+        function displayExchangeRates(data) {
+            const tableBody = document.getElementById('exchange-rates');
+            tableBody.innerHTML = '';
+            
+            data.forEach((currency, index) => {
+                const row = document.createElement('tr');
+                row.className = 'transition duration-150';
+                row.style.animation = `fadeIn 0.3s ease-out forwards`;
+                row.style.animationDelay = `${index * 0.1}s`;
+                row.style.opacity = '0';
+                
+                // Format currency code with flag
+                const flagIcon = getFlagIcon(currency.dovizcins);
+                
+                row.innerHTML = `
+                    <td class="px-4 py-2.5 flex items-center">
+                        <span class="mr-2">${flagIcon}</span>
+                        <span class="font-medium text-base text-sun-bronze dark:text-sun-light-gold">${currency.dovizcins}</span>
+                    </td>
+                    <td class="px-4 py-2.5 text-right font-medium text-base text-sun-green dark:text-sun-green">${formatRate(currency.alisKur)}</td>
+                    <td class="px-4 py-2.5 text-right font-medium text-base text-sun-red dark:text-sun-red">${formatRate(currency.satisKur)}</td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+            
+            // Update timestamps
+            if (data.length > 0) {
+                const lastUpdate = formatDate(data[0].sonDegisiklik);
+                document.getElementById('last-update').innerHTML = `
+                    <span class="mr-1">Son Güncelleme:</span>
+                    <span class="tabular-nums">${lastUpdate}</span>
+                `;
+                
+                const now = new Date();
+                const lastRead = formatDate(now.toISOString());
+                document.getElementById('last-read').innerHTML = `
+                    <span class="mr-1">Son Okuma:</span>
+                    <span class="tabular-nums">${lastRead}</span>
+                `;
+            }
+        }
+
+        // Load exchange rates on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded, calling loadExchangeRates...');
+            loadExchangeRates();
+        });
+        
+        // Reload exchange rates every 1 minute
+        setInterval(loadExchangeRates, 60 * 1000);
+        
+        // Translations are loaded from translations.js
+        
+        // Set up language switchers
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Setting up language switchers');
+            
+            // Get language switcher elements
+            const trButton = document.getElementById('lang-tr');
+            const enButton = document.getElementById('lang-en');
+            
+            if (!trButton || !enButton) {
+                console.error('Language switcher elements not found!');
+                return;
+            }
+            
+            // Get browser language
+            const browserLang = navigator.language || navigator.userLanguage;
+            console.log('Browser language:', browserLang);
+            
+            // Determine which language to use
+            let initialLang;
+            
+            if (localStorage.getItem('sun-doviz-lang')) {
+                // Use saved preference if available
+                initialLang = localStorage.getItem('sun-doviz-lang');
+                console.log('Using saved language preference:', initialLang);
+            } else {
+                // Advanced language detection from all available translations
+                const browserLangCode = browserLang.toLowerCase().split('-')[0]; // Get primary lang code
+                
+                // Check if we have a direct match for the browser language
+                if (translations[browserLang]) {
+                    initialLang = browserLang;
+                    console.log('Found exact match for browser language:', initialLang);
+                } 
+                // Check if we have a match for the language code
+                else if (translations[browserLangCode]) {
+                    initialLang = browserLangCode;
+                    console.log('Found match for browser language code:', initialLang);
+                }
+                // Default to Turkish for Turkish variants
+                else if (browserLangCode === 'tr') {
+                    initialLang = 'tr';
+                    console.log('Defaulting to Turkish based on browser language');
+                }
+                // Default to English for all other languages
+                else {
+                    initialLang = 'en';
+                    console.log('No match found, defaulting to English');
+                }
+                
+                // Save the initial detection
+                localStorage.setItem('sun-doviz-lang', initialLang);
+            }
+            
+            // Apply the determined language
+            applyLanguage(initialLang);
+            
+            // Update active button state based on current language
+            updateActiveLanguageButton(initialLang);
+            
+            // Turkish button click handler
+            trButton.addEventListener('click', function() {
+                console.log('Switching to Turkish');
+                trButton.classList.add('lang-active');
+                enButton.classList.remove('lang-active');
+                applyLanguage('tr');
+                localStorage.setItem('sun-doviz-lang', 'tr');
+            });
+            
+            // English button click handler
+            enButton.addEventListener('click', function() {
+                console.log('Switching to English');
+                enButton.classList.add('lang-active');
+                trButton.classList.remove('lang-active');
+                applyLanguage('en');
+                localStorage.setItem('sun-doviz-lang', 'en');
+            });
+        });
+        
+        // Apply language to all elements
+        function applyLanguage(lang) {
+            console.log('Applying language:', lang);
+            
+            try {
+                // Update active language button state
+                updateActiveLanguageButton(lang);
+                
+                // Set page title
+                document.title = lang === 'tr' ? 
+                    'Sun Doviz | KKTC\'nin En Güvenilir Döviz Kurları' : 
+                    'Sun Doviz | TRNC\'s Most Reliable Currency Exchange Rates';
+                
+                // Update main headings
+                const mainHeading = document.querySelector('.text-dynamic-4xl.md\\:text-6xl');
+                if (mainHeading) mainHeading.textContent = translations[lang].title;
+                
+                const subHeading = document.querySelector('.text-dynamic-xl.md\\:text-2xl');
+                if (subHeading) subHeading.textContent = translations[lang].subtitle;
+                
+                // Update buttons
+                updateButtonText('tel:', translations[lang].callButton);
+                updateButtonText('https://wa.me', translations[lang].whatsappButton);
+                
+                // Update exchange rate section
+                const ratesHeading = document.querySelector('.bg-sun-white\\/95 h3, .dark\\:bg-sun-dark-bronze\\/95 h3');
+                if (ratesHeading) ratesHeading.textContent = translations[lang].ratesTitle;
+                
+                // Update table headers
+                const headers = document.querySelectorAll('th span:last-child');
+                if (headers.length >= 3) {
+                    headers[0].textContent = translations[lang].currencyLabel;
+                    headers[1].textContent = translations[lang].buyLabel;
+                    headers[2].textContent = translations[lang].sellLabel;
+                }
+                
+                // Update timestamps
+                updateSimpleElement('#last-update span:first-child', translations[lang].lastUpdate);
+                updateSimpleElement('#last-read span:first-child', translations[lang].lastRead);
+                
+                // Update footer
+                const copyright = document.querySelector('footer p:first-child');
+                if (copyright) copyright.textContent = translations[lang].copyright;
+                
+                const designedBy = document.querySelector('footer p:last-child');
+                if (designedBy) {
+                    const link = designedBy.querySelector('a');
+                    designedBy.textContent = translations[lang].designedBy + ' ';
+                    if (link) designedBy.appendChild(link);
+                }
+                
+                // Update any loading text
+                const loadingCell = document.querySelector('#exchange-rates td');
+                if (loadingCell && loadingCell.textContent.includes('Yükleniyor') || loadingCell && loadingCell.textContent.includes('Loading')) {
+                    // Preserve the SVG icon if present
+                    const svg = loadingCell.querySelector('svg');
+                    loadingCell.textContent = '';
+                    if (svg) loadingCell.appendChild(svg);
+                    loadingCell.appendChild(document.createTextNode(translations[lang].loading));
+                }
+                
+                console.log('Language applied successfully');
+            } catch (error) {
+                console.error('Error applying language:', error);
+            }
+        }
+        
+        // Helper: Update button text with href prefix matching
+        function updateButtonText(hrefPrefix, newText) {
+            const button = document.querySelector(`a[href^="${hrefPrefix}"]`);
+            if (!button) return;
+            
+            const svg = button.querySelector('svg');
+            if (!svg) return;
+            
+            button.innerHTML = '';
+            button.appendChild(svg.cloneNode(true));
+            button.appendChild(document.createTextNode(' ' + newText));
+        }
+        
+        // Helper: Update simple element text
+        function updateSimpleElement(selector, text) {
+            const element = document.querySelector(selector);
+            if (element) element.textContent = text;
+        }
+        
+        // Helper function to update the active language button
+        function updateActiveLanguageButton(lang) {
+            const trButton = document.getElementById('lang-tr');
+            const enButton = document.getElementById('lang-en');
+            
+            if (!trButton || !enButton) return;
+            
+            if (lang === 'tr') {
+                trButton.classList.add('lang-active');
+                enButton.classList.remove('lang-active');
+            } else {
+                // For any non-Turkish language, highlight the English button
+                enButton.classList.add('lang-active');
+                trButton.classList.remove('lang-active');
+            }
+        }
+    </script>
+</body>
+</html> 
