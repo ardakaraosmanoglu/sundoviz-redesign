@@ -4,6 +4,9 @@
 
 Bu proje, https://sundoviz.com/ web sitesinin modern tasarım standartlarına uygun şekilde yeniden tasarlanmasını amaçlamaktadır. Sitenin görsel açıdan güncelliğini yitirdiğini tespit ederek, kullanıcı deneyimini iyileştirmek amacıyla bir yeniden tasarım çalışması gerçekleştirilmiştir. Projeyi beğendiğiniz takdirde, tüm kaynak kodlarına GitHub üzerinden ücretsiz olarak erişebilir ve kendi sitenizde uygulayabilirsiniz. Yapılan değişiklikleri incelemek için tanıtım videosunu izleyebilir, canlı demo sürümüne şu bağlantıdan ulaşabilirsiniz: https://raxana.net/demos/sundoviz/update.mp4
 
+![before-after-comparison](https://github.com/user-attachments/assets/96121137-9232-436b-830f-a62060f095c5)
+
+
 ## Özellikler
 
 ### Çekirdek Uygulama
